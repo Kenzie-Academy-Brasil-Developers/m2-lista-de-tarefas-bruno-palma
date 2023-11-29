@@ -13,12 +13,7 @@ const tasks = [
 
 function renderElements(tasks) {
   const ul = document.querySelector(".tasks__list");
-  const oldLi = document.querySelectorAll(".task__item");
-
-  for (let i = 0; i < oldLi.length; i++) {
-    const currentLi = oldLi[i];
-    ul.removeChild(currentLi);
-  }
+  ul.innerHTML = "";
 
   for (let i = 0; i < tasks.length; i++) {
     const currentTask = tasks[i];
@@ -36,11 +31,11 @@ function createTaskItem(newObject) {
   const span = document.createElement("span");
   span.classList.add("task-type");
 
-  if (newObject.type == "Normal") {
+  if (newObject.type.toLowerCase() == "normal") {
     span.classList.add("span-normal");
-  } else if (newObject.type == "Importante") {
+  } else if (newObject.type.toLowerCase() == "importante") {
     span.classList.add("span-important");
-  } else if (newObject.type == "Urgente") {
+  } else if (newObject.type.toLowerCase() == "urgente") {
     span.classList.add("span-urgent");
   }
 
@@ -56,4 +51,29 @@ function createTaskItem(newObject) {
   return newLi;
 }
 
+function createNewTask() {
+  const formButton = document.querySelector(".form__button--add-task");
+
+  formButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const inputText = document.querySelector(".form__input--text");
+    const inputSelect = document.querySelector(".form__input--priority");
+
+    const newTask = {
+      title: inputText.value,
+      type: inputSelect.value,
+    };
+
+    if (newTask.title !== "" && newTask.type !== "") {
+      tasks.push(newTask);
+      renderElements(tasks);
+      inputText.value = "";
+      inputSelect.value = "";
+    } else {
+      alert("Todas as tarefas precisam ter um TÍTULO e um TIPO.");
+    }
+  });
+}
+
 renderElements(tasks);
+createNewTask();
