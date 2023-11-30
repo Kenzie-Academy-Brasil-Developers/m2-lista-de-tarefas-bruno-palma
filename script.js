@@ -44,6 +44,11 @@ function createTaskItem(newObject) {
 
   const button = document.createElement("button");
   button.classList.add("task__button--remove-task");
+  button.addEventListener("click", function () {
+    const index = tasks.indexOf(newObject);
+    tasks.splice(index, 1);
+    renderElements(tasks);
+  });
 
   div.append(span, p);
   newLi.append(div, button);
